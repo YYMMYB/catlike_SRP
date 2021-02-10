@@ -32,6 +32,7 @@ public partial class CameraRenderer
         Setup();
         DrawVisibleGeometry();
         DrawUnsupportedShaders();
+        DrawGizmos();
         Submit();
     }
 
@@ -92,4 +93,6 @@ public partial class CameraRenderer
     }
 
     partial void DrawUnsupportedShaders();
+
+    partial void DrawGizmos();
 }
