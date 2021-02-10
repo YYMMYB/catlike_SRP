@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 69082663}
   - component: {fileID: 69082662}
   - component: {fileID: 69082661}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blue Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -369,7 +369,7 @@ GameObject:
   - component: {fileID: 618214838}
   - component: {fileID: 618214837}
   - component: {fileID: 618214836}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Red Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -618,7 +618,7 @@ GameObject:
   - component: {fileID: 743631781}
   - component: {fileID: 743631780}
   - component: {fileID: 743631779}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Red Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -901,7 +901,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 51
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1212,7 +1212,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1612,7 +1612,7 @@ GameObject:
   - component: {fileID: 1662486151}
   - component: {fileID: 1662486150}
   - component: {fileID: 1662486149}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blue Sphere (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1770,7 +1770,7 @@ GameObject:
   - component: {fileID: 1857119486}
   - component: {fileID: 1857119485}
   - component: {fileID: 1857119484}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blue Sphere (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
