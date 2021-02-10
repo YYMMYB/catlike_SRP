@@ -24,6 +24,7 @@ public partial class CameraRenderer
         this.context = context;
         this.camera = camera;
 
+        PrepareBuffer();
         PrepareForSceneWindow();
         if (!Cull())
         {
@@ -98,4 +99,6 @@ public partial class CameraRenderer
     partial void DrawGizmos();
 
     partial void PrepareForSceneWindow();
+
+    partial void PrepareBuffer();
 }

@@ -57,5 +57,10 @@ partial class CameraRenderer
         }
     }
 
+    partial void PrepareBuffer()
+    {
+        buffer.name = camera.name;
+    }
+
 #endif
 }
