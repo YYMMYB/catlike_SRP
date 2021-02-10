@@ -27,9 +27,10 @@ public class CameraRenderer
 
     void Setup()
     {
+        context.SetupCameraProperties(camera);
+        buffer.ClearRenderTarget(true, true, Color.clear);
         buffer.BeginSample(bufferName);
         ExecuteBuffer();
-        context.SetupCameraProperties(camera);
     }
 
     void Submit()
