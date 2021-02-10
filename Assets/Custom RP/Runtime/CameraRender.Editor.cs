@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using UnityEngine.Profiling;
 using UnityEngine.Rendering;
 partial class CameraRenderer
 {
@@ -15,6 +16,8 @@ partial class CameraRenderer
     };
 
     static Material errorMaterial;
+
+    string SampleName { get; set; }
 
     partial void DrawGizmos()
     {
@@ -59,8 +62,14 @@ partial class CameraRenderer
 
     partial void PrepareBuffer()
     {
-        buffer.name = camera.name;
+        Profiler.BeginSample("Editor Only");
+        buffer.name = SampleName = camera.name;
+        Profiler.EndSample();
     }
+
+#else
+
+    const string SampleName = bufferName;
 
 #endif
 }

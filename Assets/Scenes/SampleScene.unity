@@ -1174,22 +1174,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1206912613}
   - component: {fileID: 1206912612}
-  - component: {fileID: 1206912611}
   m_Layer: 0
-  m_Name: 'Second Camera sdfsdf '
+  m_Name: Second Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1206912611
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1206912610}
-  m_Enabled: 1
 --- !u!20 &1206912612
 Camera:
   m_ObjectHideFlags: 0
