@@ -4,6 +4,8 @@ using UnityEngine.Rendering;
 public class CameraRenderer
 {
 
+    static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");
+
     ScriptableRenderContext context;
 
     Camera camera;
@@ -64,6 +66,19 @@ public class CameraRenderer
 
     void DrawVisibleGeometry()
     {
+        var sortingSettings = new SortingSettings(camera)
+        {
+            criteria = SortingCriteria.CommonOpaque
+        };
+        var drawingSettings = new DrawingSettings(
+            unlitShaderTagId, sortingSettings
+        );
+        var filteringSettings = new FilteringSettings(RenderQueueRange.all);
+
+        context.DrawRenderers(
+            cullingResults, ref drawingSettings, ref filteringSettings
+        );
+
         context.DrawSkybox(camera);
     }
 }
