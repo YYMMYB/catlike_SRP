@@ -2,6 +2,7 @@
 #define CUSTOM_LIT_PASS_INCLUDED
 
 #include "../ShaderLibrary/Common.hlsl"
+#include "../ShaderLibrary/Surface.hlsl"
 
 TEXTURE2D(_BaseMap);
 SAMPLER(sampler_BaseMap);
@@ -42,12 +43,17 @@ float4 LitPassFragment (Varyings input) : SV_TARGET {
     UNITY_SETUP_INSTANCE_ID(input);
     float4 baseMap = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.baseUV);
     float4 baseColor = UNITY_ACCESS_INSTANCED_PROP(UnityPerMaterial, _BaseColor);
-	float4 base = baseMap * baseColor;
-	#if defined(_CLIPPING)
-		clip(base.a - UNITY_ACCESS_INSTANCED_PROP(UnityPerMaterial, _Cutoff));
-	#endif
-    base.rgb = normalize(input.normalWS);
-	return base;
+    float4 base = baseMap * baseColor;
+    #if defined(_CLIPPING)
+        clip(base.a - UNITY_ACCESS_INSTANCED_PROP(UnityPerMaterial, _Cutoff));
+    #endif
+
+    Surface surface;
+    surface.normal = normalize(input.normalWS);
+    surface.color = base.rgb;
+    surface.alpha = base.a;
+
+    return float4(surface.color, surface.alpha);
 }
 
 #endif
