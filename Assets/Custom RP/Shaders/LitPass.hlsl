@@ -46,7 +46,7 @@ float4 LitPassFragment (Varyings input) : SV_TARGET {
 	#if defined(_CLIPPING)
 		clip(base.a - UNITY_ACCESS_INSTANCED_PROP(UnityPerMaterial, _Cutoff));
 	#endif
-    base.rgb = input.normalWS;
+    base.rgb = normalize(input.normalWS);
 	return base;
 }
 
