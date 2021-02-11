@@ -2,7 +2,7 @@
 #define CUSTOM_LIGHTING_INCLUDED
 
 float3 GetLighting (Surface surface) {
-	return surface.normal.y * surface.color;
+    return surface.normal.y * surface.color;
 }
 
 #endif
