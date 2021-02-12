@@ -24,7 +24,7 @@ public partial class CameraRenderer
 
     public void Render(
         ScriptableRenderContext context, Camera camera,
-		bool useDynamicBatching, bool useGPUInstancing
+        bool useDynamicBatching, bool useGPUInstancing
     )
     {
         this.context = context;
@@ -87,12 +87,13 @@ public partial class CameraRenderer
         {
             criteria = SortingCriteria.CommonOpaque
         };
-		var drawingSettings = new DrawingSettings(
-			unlitShaderTagId, sortingSettings
-		) {
-			enableDynamicBatching = useDynamicBatching,
-			enableInstancing = useGPUInstancing
-		};
+        var drawingSettings = new DrawingSettings(
+            unlitShaderTagId, sortingSettings
+        )
+        {
+            enableDynamicBatching = useDynamicBatching,
+            enableInstancing = useGPUInstancing
+        };
         drawingSettings.SetShaderPassName(1, litShaderTagId);
         var filteringSettings = new FilteringSettings(RenderQueueRange.opaque);
 
