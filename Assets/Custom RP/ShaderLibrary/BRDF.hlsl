@@ -19,6 +19,7 @@ BRDF GetBRDF (Surface surface) {
     BRDF brdf;
 
     brdf.diffuse = surface.color * OneMinusReflectivity(surface.metallic);
+    brdf.diffuse *= surface.alpha;
     brdf.specular = lerp(MIN_REFLECTIVITY, surface.color, surface.metallic);
     float perceptualRoughness =
         PerceptualSmoothnessToPerceptualRoughness(surface.smoothness);
