@@ -47,6 +47,8 @@ public class CustomShaderGUI : ShaderGUI
         }
     }
 
+    bool HasPremultiplyAlpha => HasProperty("_PremulAlpha");
+
     public override void OnGUI(
         MaterialEditor materialEditor, MaterialProperty[] properties
     )
@@ -104,6 +106,8 @@ public class CustomShaderGUI : ShaderGUI
         }
     }
 
+    bool HasProperty(string name) => FindProperty(name, properties, false) != null;
+
     bool PresetButton(string name)
     {
         if (GUILayout.Button(name))
@@ -155,7 +159,7 @@ public class CustomShaderGUI : ShaderGUI
 
     void TransparentPreset()
     {
-        if (PresetButton("Transparent"))
+        if (HasPremultiplyAlpha && PresetButton("Transparent"))
         {
             Clipping = false;
             PremultiplyAlpha = true;
