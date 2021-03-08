@@ -22,7 +22,10 @@ public class Lighting
     };
 
     CullingResults cullingResults;
-    public void Setup(ScriptableRenderContext context, CullingResults cullingResults)
+    public void Setup(
+        ScriptableRenderContext context, CullingResults cullingResults,
+        ShadowSettings shadowSettings
+    )
     {
         this.cullingResults = cullingResults;
         buffer.BeginSample(bufferName);
@@ -41,7 +44,7 @@ public class Lighting
             VisibleLight visibleLight = visibleLights[i];
             if (visibleLight.lightType == LightType.Directional)
             {
-                SetupDirectionalLight(dirLightCount++,ref visibleLight);
+                SetupDirectionalLight(dirLightCount++, ref visibleLight);
                 if (dirLightCount >= maxDirLightCount)
                 {
                     break;
