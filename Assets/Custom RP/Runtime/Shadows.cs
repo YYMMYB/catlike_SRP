@@ -5,6 +5,7 @@ public class Shadows
 {
     const int maxShadowedDirectionalLightCount = 1;
     const string bufferName = "Shadows";
+    static int dirShadowAtlasId = Shader.PropertyToID("_DirectionalShadowAtlas");
 
     CommandBuffer buffer = new CommandBuffer
     {
@@ -57,5 +58,41 @@ public class Shadows
                     visibleLightIndex = visibleLightIndex
                 };
         }
+    }
+
+    public void Render()
+    {
+        if (ShadowedDirectionalLightCount > 0)
+        {
+            RenderDirectionalShadows();
+        }
+        else
+        {
+            buffer.GetTemporaryRT(
+                dirShadowAtlasId, 1, 1,
+                32, FilterMode.Bilinear, RenderTextureFormat.Shadowmap
+            );
+        }
+    }
+
+    void RenderDirectionalShadows()
+    {
+        int atlasSize = (int)settings.directional.atlasSize;
+        buffer.GetTemporaryRT(
+            dirShadowAtlasId, atlasSize, atlasSize,
+            32, FilterMode.Bilinear, RenderTextureFormat.Shadowmap
+        );
+        buffer.SetRenderTarget(
+            dirShadowAtlasId,
+            RenderBufferLoadAction.DontCare, RenderBufferStoreAction.Store
+        );
+        buffer.ClearRenderTarget(true, false, Color.clear);
+        ExecuteBuffer();
+    }
+
+    public void Cleanup()
+    {
+        buffer.ReleaseTemporaryRT(dirShadowAtlasId);
+        ExecuteBuffer();
     }
 }
