@@ -10,7 +10,7 @@ public class Shadows
         dirShadowMatricesId = Shader.PropertyToID("_DirectionalShadowMatrices"),
         cascadeCountId = Shader.PropertyToID("_CascadeCount"),
         cascadeCullingSpheresId = Shader.PropertyToID("_CascadeCullingSpheres"),
-        shadowDistanceId = Shader.PropertyToID("_ShadowDistance");
+        shadowDistanceFadeId = Shader.PropertyToID("_ShadowDistanceFade");
 
     static Matrix4x4[]
         dirShadowMatrices = new Matrix4x4[maxShadowedDirectionalLightCount * maxCascades];
@@ -114,7 +114,10 @@ public class Shadows
             cascadeCullingSpheresId, cascadeCullingSpheres
         );
         buffer.SetGlobalMatrixArray(dirShadowMatricesId, dirShadowMatrices);
-        buffer.SetGlobalFloat(shadowDistanceId, settings.maxDistance);
+        buffer.SetGlobalVector(
+            shadowDistanceFadeId,
+            new Vector4(1f / settings.maxDistance, 1f / settings.distanceFade)
+        );
         buffer.EndSample(bufferName);
         ExecuteBuffer();
     }

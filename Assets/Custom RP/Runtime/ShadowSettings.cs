@@ -4,9 +4,11 @@ using UnityEngine;
 public class ShadowSettings
 {
 
-    [Min(0f)]
+    [Min(0.001f)]
     public float maxDistance = 100f;
 
+    [Range(0.001f, 1f)]
+    public float distanceFade = 0.1f;
     public enum TextureSize
     {
         _256 = 256, _512 = 512, _1024 = 1024,
