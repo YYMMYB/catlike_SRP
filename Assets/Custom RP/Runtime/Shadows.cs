@@ -170,6 +170,8 @@ public class Shadows
                 out Matrix4x4 viewMatrix, out Matrix4x4 projectionMatrix,
                 out ShadowSplitData splitData
             );
+            float cullingFactor = Mathf.Max(0f, 0.8f - settings.directional.cascadeFade);
+            splitData.shadowCascadeBlendCullingFactor = cullingFactor;
             shadowSettings.splitData = splitData;
             if (index == 0)
             {
