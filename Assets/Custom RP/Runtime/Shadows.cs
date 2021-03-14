@@ -200,9 +200,13 @@ public class Shadows
 
     void SetCascadeData(int index, Vector4 cullingSphere, float tileSize)
     {
+        float texelSize = 2f * cullingSphere.w / tileSize;
         cullingSphere.w *= cullingSphere.w;
-        cascadeData[index].x = 1f / cullingSphere.w;
         cascadeCullingSpheres[index] = cullingSphere;
+        cascadeData[index] = new Vector4(
+            1f / cullingSphere.w,
+            texelSize * 1.4142136f
+        );
     }
 
     public void Cleanup()
