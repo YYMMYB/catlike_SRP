@@ -10,11 +10,13 @@ public class Shadows
         dirShadowMatricesId = Shader.PropertyToID("_DirectionalShadowMatrices"),
         cascadeCountId = Shader.PropertyToID("_CascadeCount"),
         cascadeCullingSpheresId = Shader.PropertyToID("_CascadeCullingSpheres"),
+        cascadeDataId = Shader.PropertyToID("_CascadeData"),
         shadowDistanceFadeId = Shader.PropertyToID("_ShadowDistanceFade");
 
     static Matrix4x4[]
         dirShadowMatrices = new Matrix4x4[maxShadowedDirectionalLightCount * maxCascades];
-    static Vector4[] cascadeCullingSpheres = new Vector4[maxCascades];
+    static Vector4[] cascadeCullingSpheres = new Vector4[maxCascades],
+        cascadeData = new Vector4[maxCascades];
 
     CommandBuffer buffer = new CommandBuffer
     {
@@ -119,6 +121,7 @@ public class Shadows
             shadowDistanceFadeId,
             new Vector4(1f / settings.maxDistance, 1f / settings.distanceFade, 1f / (1f - f * f))
         );
+        buffer.SetGlobalVectorArray(cascadeDataId, cascadeData);
         buffer.EndSample(bufferName);
         ExecuteBuffer();
     }
@@ -141,12 +144,10 @@ public class Shadows
             shadowSettings.splitData = splitData;
             if (index == 0)
             {
-                Vector4 cullingSphere = splitData.cullingSphere;
-                cullingSphere.w *= cullingSphere.w;
-                cascadeCullingSpheres[i] = cullingSphere;
+                SetCascadeData(i, splitData.cullingSphere, tileSize);
             }
             int tileIndex = tileOffset + i;
-            dirShadowMatrices[tileIndex] = ConvertToAtlasMatrix(
+            dirShadowMatrices[tileIndex] = ConvertToAtlasMatrix( // 用于 世界坐标 转 纹理坐标 在阴影贴图上采样.
                 projectionMatrix * viewMatrix,
                 SetTileViewport(tileIndex, split, tileSize),
                 split
@@ -166,8 +167,14 @@ public class Shadows
         return offset;
     }
 
+    // Unity 剪裁空间 与OpenGL相同 x,y,z 除以 w 后 都是 [-1,1].
+    // 但 z buffer 与 采样时用的 纹理坐标(uv) 中存储的是 [0,1].
+    // 注意到 阴影贴图 是在正交视角下渲染的, 所以无需 透视除法,
     Matrix4x4 ConvertToAtlasMatrix(Matrix4x4 m, Vector2 offset, int split)
     {
+        // 无论是正交还是透视, 这里应该都可以直接取负得到 Reversed Z
+        // 可以参照 https://docs.unity.cn/2019.4/Documentation/Manual/SL-PlatformDifferences.html
+        // 即手册中的 Graphics / Meshes, Materials, Shaders and Textures / Writing Shaders / Shader Reference / Advanced ShaderLab topics / Platform-specific rendering differences
         if (SystemInfo.usesReversedZBuffer)
         {
             m.m20 = -m.m20;
@@ -189,6 +196,13 @@ public class Shadows
         m.m22 = 0.5f * (m.m22 + m.m32);
         m.m23 = 0.5f * (m.m23 + m.m33);
         return m;
+    }
+
+    void SetCascadeData(int index, Vector4 cullingSphere, float tileSize)
+    {
+        cullingSphere.w *= cullingSphere.w;
+        cascadeData[index].x = 1f / cullingSphere.w;
+        cascadeCullingSpheres[index] = cullingSphere;
     }
 
     public void Cleanup()
